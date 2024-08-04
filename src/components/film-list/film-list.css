@@ -1,0 +1,8 @@
+.film-list-wrapper {
+  max-width: 1010px;
+  height: 1147;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 23px;
+  justify-content: center;
+}

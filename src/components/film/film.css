@@ -1,0 +1,21 @@
+.film-card {
+  min-width: 451px;
+  max-width: 451px;
+  min-height: 279px;
+  height: 279px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 4px 4px 12px #00000026;
+}
+
+.description {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.film-img {
+  max-width: 183px;
+  max-height: 100%;
+}
