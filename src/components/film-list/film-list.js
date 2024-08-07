@@ -1,16 +1,18 @@
-import { Component } from 'react';
 import './film-list.css';
+import React from 'react';
 import Film from '../film/film';
 
-export default class FilmList extends Component {
+function FilmList() {
+  return (
+    <div className="film-list-wrapper">
+      <Film />
+      <Film />
+      <Film />
+      <Film />
 
-  render() {
-    return (
-      <div className="film-list-wrapper">
-        <Film />
+    </div>
 
-      </div>
-
-    );
-  }
+  );
 }
+
+export default FilmList;

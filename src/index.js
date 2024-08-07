@@ -1,26 +1,11 @@
-import { Component } from "react";
 import { createRoot } from 'react-dom/client';
-import FilmList from "./components/film-list/film-list";
-// import 'antd/dist/antd.css';
-import { addDays } from "date-fns";
-import App from "./components/app/app";
-
-
+import App from './components/app/app';
+import React from 'react';
 
 const container = document.getElementById('root');
 const body = createRoot(container);
 
 body.render(<App />);
-
-
-
-// const sokr = () => {
-//   let yourString = "The quick brown fox jumps over the lazy dog"; 
-//   let trimmedString = yourString.substring(0, 16);
-  
-//   trimmedString = trimmedString.substring(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
-//   console.log(trimmedString)
-// }
 
 // sokr()
 

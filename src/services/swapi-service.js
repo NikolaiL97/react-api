@@ -1,7 +1,7 @@
 import { Component } from "react";
 
 export default class SwapiService extends Component {
-    searchFilm = 'How to train your Dragon'
+    searchFilm = 'Titanic'
     apiKey = 'fc1352909d5ee6acabd9b17da47e25ae'
 	_apiBase = `https://api.themoviedb.org/3/search/movie?query=${this.searchFilm}&api_key=${this.apiKey}`;
 
