@@ -1,12 +1,12 @@
-import React from "react"
-import { Alert } from "antd"
+import React from 'react';
+import { Alert } from 'antd';
 
-const ErrorIndicator = () => {
-    return (
-        <div>
-            <Alert />
-        </div>
-    )
+function ErrorIndicator() {
+  return (
+    <div>
+      <Alert />
+    </div>
+  );
 }
 
-export default ErrorIndicator
+export default ErrorIndicator;

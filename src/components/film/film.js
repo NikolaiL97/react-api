@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './film.css';
-import SwapiService from '../../services/swapi-service';
+import FilmapiService from '../../services/film-api-service';
 import { format } from 'date-fns';
 import { Spin, Alert } from "antd";
 import React from 'react';
@@ -9,7 +9,7 @@ import ErrorIndicator from '../error-indicator/error-indicator';
 
 export default class Film extends Component {
 
-  swapiService = new SwapiService();
+  filmapiService = new FilmapiService();
 
   state = {
     film: {
@@ -23,18 +23,21 @@ export default class Film extends Component {
     error: false,
   };
 
-  constructor() {
-    super();
+
+  componentDidMount() {
     this.updateFilm();
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.val !== this.props.val) {
+      this.updateFilm();
+    }
+  }
   onFilmLoaded = () => {
-    // this.setState((this.state) => {
-    //   return(
-    //     loading: false
-    //   )
-      
-    // })
+    let loading = false
+    this.setState({
+        loading: loading
+    })
   }
 
   onError = () => {
@@ -44,12 +47,9 @@ export default class Film extends Component {
     })
   }
 
-  onConsole = () => {
-    console.log(this.state.loading)
-  }
-
-  updateFilm() {
-    this.swapiService.getResource()
+  updateFilm =() =>  {
+    const { val } = this.props
+    this.filmapiService.getResours(val)
     .then((body) => {
       const defaultDate = new Date(body.results[0].release_date)
       this.setState({
@@ -60,6 +60,7 @@ export default class Film extends Component {
           description: this.sokr(body.results[0].overview),
           image: body.results[0].poster_path  
         },
+        loading:false,
       })
       
     })
@@ -68,11 +69,11 @@ export default class Film extends Component {
   
 
   sokr = (text) => {
-  let yourString = text; 
-  let trimmedString = yourString.substring(0, 150);
-  
-  trimmedString = trimmedString.substring(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
-  return trimmedString
+    let yourString = text; 
+    let trimmedString = yourString.substring(0, 150);
+    
+    trimmedString = trimmedString.substring(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
+    return trimmedString
 }
   render() {
     
@@ -83,7 +84,7 @@ export default class Film extends Component {
   const spin = loading ? <Spin /> : null;
   const content = hasData ? <FilmView film ={film}/> : null;
 
-  if (loading) {
+  if (!film) {
     return <Spin />
   }
 
@@ -103,11 +104,11 @@ const FilmView = ({film}) => {
   return (
     <React.Fragment>
         <img src={imageFilm} alt="film cover" className='film-img'/>
-        <div className="description">
-          <h5>{nameFilm}</h5>
-          <p>{relisesDate}</p>
+        <div className="information">
+          <h5 className='nameFilm'>{nameFilm}</h5>
+          <p className="relisesDate">{relisesDate}</p>
           <p>{style}</p>
-          <p>{description}</p>
+          <p className='description'>{description}</p>
         </div>
     </React.Fragment>
   )
