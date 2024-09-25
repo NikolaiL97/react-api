@@ -1,38 +1,56 @@
 import './film-list.css';
+import { Spin } from 'antd';
 import React, { Component } from 'react';
 import Film from '../film/film';
-import FilmapiService from '../../services/film-api-service';
-import { Spin } from 'antd';
-import Pag from '../../pagination/pagination';
+import FilmapiService from '../services/film-api-service';
+import Pag from '../pagination/pagination';
+import ErrorIndicator from '../error-indicator/error-indicator';
 
 export default class FilmList extends Component {
-  filmapiService = new FilmapiService;
+  filmapiService = new FilmapiService();
 
   state = {
     filmsId: [],
     filmName: [],
+    page: 1,
     totalPages: null,
-    loading: true
+    loading: true,
+    error: false,
   }
 
-  componentDidUpdate(prevProps){
-    if(prevProps.val !== this.props.val){
+  componentDidUpdate(prevProps, prevState){
+    if((prevProps.val !== this.props.val)){
+      this.setState({
+        filmsId: [],
+        filmName: [],
+        loading: true,
+        page:1
+      });
+      this.updateFilmList()
+    }
+    if(prevState.page !== this.state.page) {
       this.setState({
         filmsId: [],
         filmName: [],
         loading: true
-      });
+      })
       this.updateFilmList()
     }
-    
   }
 
-
+  onError = (err) => {
+    this.setState({
+      error: true,
+      loading: false
+    })
+  }
 
   updateFilmList() {
     const { val } = this.props
+    const {page} = this.state
+    console.log(page)
     this.filmapiService
-    .getResours(val)
+    .getResours(val, page)
     .then((body) => {
       console.log(body)
       if(body.results.length == 0) {
@@ -55,7 +73,15 @@ export default class FilmList extends Component {
         })
       });
     })
+    .catch(this.onError)
 
+  }
+
+  changePagination= (current) => {
+    this.setState({
+      page: current
+    })
+    console.log(current)
   }
 
 
@@ -65,6 +91,15 @@ export default class FilmList extends Component {
     const { val } = this.props
     const loading = this.state.loading
     const totalPages = this.state.totalPages
+    const error = this.state.error
+    const page = this.state.page
+    
+
+    if(error) {
+      return (
+        <ErrorIndicator />
+      )
+    }
 
     if(val && (filmName.length == 0) && !loading) {
       return (
@@ -79,21 +114,24 @@ export default class FilmList extends Component {
       return (
         <Spin />
       )
-    } else {
+    } else if (filmName){
       const elem = filmsId.map((el, idx) => {
         const id = el.id
         const vals = filmName[idx]
         return (
           <Film
           key = {id}
-          val = {vals} />
+          val = {vals}
+          page = {page} />
         ) 
       })
       return (
         <div className="film-list-wrapper">
           {elem}
           <Pag 
-          totalPages={totalPages}/>
+          totalPages={totalPages}
+          changePagination={this.changePagination}
+          page={page}/>
         </div>
     
       );

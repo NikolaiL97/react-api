@@ -4,7 +4,7 @@ import { Alert } from 'antd';
 function ErrorIndicator() {
   return (
     <div>
-      <Alert />
+      <Alert message="OYP's" type="error" />
     </div>
   );
 }

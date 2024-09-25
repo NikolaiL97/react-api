@@ -3,6 +3,7 @@ import { Offline, Online } from 'react-detect-offline';
 import FilmList from '../film-list/film-list';
 import SearchFilm from '../search-film/search-film';
 import debounce from 'lodash.debounce';
+import sessionApi from '../session-api/session-api';
 
 
 export default class App extends Component {
@@ -17,12 +18,16 @@ export default class App extends Component {
       });
      console.log('APP ' + this.state.searchFilm)
     }
-  
-    // this.updateFilm()
   };
+
+  componentDidMount() {
+    sessionApi()
+  }
 
 
 onLabelChange = debounce(this.onLabelChange, 800)
+
+
   render() {
     const val = this.state.searchFilm
     return (
@@ -37,9 +42,7 @@ onLabelChange = debounce(this.onLabelChange, 800)
               <FilmList 
                 val = {val}
               />
-
             </section>
-
           </section>
         </Online>
         <Offline>
@@ -48,39 +51,4 @@ onLabelChange = debounce(this.onLabelChange, 800)
       </>
     );
   }
-  
 }
-
-
-// import React from 'react';
-// import { Flex, Radio } from 'antd';
-// const baseStyle = {
-//   width: '25%',
-//   height: 54,
-// };
-
-// const App = () => {
-//     const [value, setValue] = React.useState('horizontal');
-//     return (
-//       <Flex gap="middle" vertical>
-//         <Radio.Group value={value} onChange={(e) => setValue(e.target.value)}>
-//           <Radio value="horizontal">horizontal</Radio>
-//           <Radio value="vertical">vertical</Radio>
-//         </Radio.Group>
-//         <Flex vertical={value === 'vertical'}>
-//           {Array.from({
-//             length: 2,
-//           }).map((_, i) => (
-//             <div
-//               key={i}
-//               style={{
-//                 ...baseStyle,
-//                 backgroundColor: i % 2 ? '#1677ff' : '#1677ffbf',
-//               }}
-//             />
-//           ))}
-//         </Flex>
-//       </Flex>
-//     );
-//   };
-//   export default App;

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './film.css';
-import FilmapiService from '../../services/film-api-service';
+import FilmapiService from '../services/film-api-service';
 import { format } from 'date-fns';
 import { Spin, Alert } from "antd";
 import React from 'react';
@@ -48,8 +48,8 @@ export default class Film extends Component {
   }
 
   updateFilm =() =>  {
-    const { val } = this.props
-    this.filmapiService.getResours(val)
+    const { val, page } = this.props
+    this.filmapiService.getResours(val, page)
     .then((body) => {
       const defaultDate = new Date(body.results[0].release_date)
       this.setState({
