@@ -3,10 +3,10 @@ import './search-film.css';
 
 export default class SearchFilm extends Component {
   render() {
-    const { val, onLabelChange } = this.props;
+    const { onLabelChange } = this.props;
     return (
       <form className="searchForm">
-        <input className="" placeholder="Type to search..." autoFocus onChange={onLabelChange} />
+        <input className="searchForm-input" placeholder="Type to search..." autoFocus onChange={onLabelChange} />
       </form>
     );
   }

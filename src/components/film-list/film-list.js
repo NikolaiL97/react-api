@@ -18,6 +18,10 @@ export default class FilmList extends Component {
     error: false,
   }
 
+  componentDidMount(){
+    this.updateFilmList()
+  }
+
   componentDidUpdate(prevProps, prevState){
     if((prevProps.val !== this.props.val)){
       this.setState({
@@ -48,11 +52,9 @@ export default class FilmList extends Component {
   updateFilmList() {
     const { val } = this.props
     const {page} = this.state
-    console.log(page)
     this.filmapiService
     .getResours(val, page)
     .then((body) => {
-      console.log(body)
       if(body.results.length == 0) {
         this.setState({
           loading: false
@@ -88,7 +90,7 @@ export default class FilmList extends Component {
   render() {
     const filmsId = this.state.filmsId
     const filmName = this.state.filmName
-    const { val } = this.props
+    const { val, guestSessionId } = this.props
     const loading = this.state.loading
     const totalPages = this.state.totalPages
     const error = this.state.error
@@ -112,17 +114,21 @@ export default class FilmList extends Component {
 
     if(loading) {
       return (
-        <Spin />
+        <Spin className='spin' />
       )
     } else if (filmName){
       const elem = filmsId.map((el, idx) => {
         const id = el.id
         const vals = filmName[idx]
         return (
-          <Film
-          key = {id}
-          val = {vals}
-          page = {page} />
+          <div className='film'>
+            <Film 
+            key = {id}
+            val = {vals}
+            page = {page}
+            filmsId = {filmsId} />
+          </div>
+
         ) 
       })
       return (
@@ -136,9 +142,5 @@ export default class FilmList extends Component {
     
       );
     }
-
-
-
   }
-
 }

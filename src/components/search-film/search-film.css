@@ -1,3 +1,13 @@
 .searchForm {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.searchForm-input {
+  width: 938px;
+  height: 40px;
+  padding: 0 auto;
+  font-size: 16px;
 }

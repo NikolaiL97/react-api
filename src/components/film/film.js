@@ -5,11 +5,14 @@ import { format } from 'date-fns';
 import { Spin, Alert } from "antd";
 import React from 'react';
 import ErrorIndicator from '../error-indicator/error-indicator';
+import Rating from '../rating/rating';
+import GuestApiSession from '../services/guest-api-session';
 
 
 export default class Film extends Component {
 
   filmapiService = new FilmapiService();
+  guestApiSession = new GuestApiSession();
 
   state = {
     film: {
@@ -25,6 +28,7 @@ export default class Film extends Component {
 
 
   componentDidMount() {
+    this.guestApiSession.getRated(this.props.filmsId).then((body) => console.log(body))
     this.updateFilm();
   }
 
@@ -73,7 +77,7 @@ export default class Film extends Component {
     let trimmedString = yourString.substring(0, 150);
     
     trimmedString = trimmedString.substring(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
-    return trimmedString
+    return trimmedString +' ...'
 }
   render() {
     
@@ -108,7 +112,11 @@ const FilmView = ({film}) => {
           <h5 className='nameFilm'>{nameFilm}</h5>
           <p className="relisesDate">{relisesDate}</p>
           <p>{style}</p>
-          <p className='description'>{description}</p>
+          <div className='description'>
+            <p>{description}</p>
+            <Rating />
+          </div>
+
         </div>
     </React.Fragment>
   )

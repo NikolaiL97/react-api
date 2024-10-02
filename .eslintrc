@@ -7,8 +7,7 @@
   "extends": ["airbnb"],
   "rules": {
     "no-tabs": "off",
-    "requireConfigFile": 0,
-    // "indent": [2, "tab"],
+    "indent": [2, "tab"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
   },
   "parser": "@babel/eslint-parser",
