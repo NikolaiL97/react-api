@@ -16,10 +16,12 @@ export default class FilmList extends Component {
     totalPages: null,
     loading: true,
     error: false,
+    genreFilms:null,
   }
 
   componentDidMount(){
-    this.updateFilmList()
+    this.getGenreFilm();
+    this.updateFilmList();
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -73,10 +75,19 @@ export default class FilmList extends Component {
           filmName: filmName,
           loading: false
         })
-      });
+      })
     })
     .catch(this.onError)
 
+  }
+
+  getGenreFilm() {
+    this.filmapiService.getGenre()
+    .then((body) => {
+      this.setState({
+        genreFilms: body.genres
+      })
+    })
   }
 
   changePagination= (current) => {
@@ -95,6 +106,7 @@ export default class FilmList extends Component {
     const totalPages = this.state.totalPages
     const error = this.state.error
     const page = this.state.page
+    const genreFilms = this.state.genreFilms
     
 
     if(error) {
@@ -118,19 +130,20 @@ export default class FilmList extends Component {
       )
     } else if (filmName){
       const elem = filmsId.map((el, idx) => {
-        const id = el.id
+        const id = el
         const vals = filmName[idx]
         return (
-          <div className='film'>
+          <div className='film' key={id}>
             <Film 
-            key = {id}
+            id={id}
             val = {vals}
             page = {page}
-            filmsId = {filmsId} />
+            filmsId = {filmsId}
+            genreFilms = {genreFilms} />
           </div>
-
         ) 
       })
+
       return (
         <div className="film-list-wrapper">
           {elem}
@@ -139,7 +152,6 @@ export default class FilmList extends Component {
           changePagination={this.changePagination}
           page={page}/>
         </div>
-    
       );
     }
   }

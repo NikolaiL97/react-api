@@ -2,23 +2,25 @@ import { Component } from "react";
 import FilmList from "../film-list/film-list";
 import SearchFilm from "../search-film/search-film";
 import FilmapiService from "../services/film-api-service";
+import Rate from "../rate/rate";
 import './content-film.css'
 
 export default class ContentFilm extends Component {
   filmapiService = new FilmapiService();
-  componentDidUpdate() {
-    this.filmRated()
-  }
+  // componentDidUpdate() {
+  //   this.filmRated()
+  // }
 
-  filmRated() {
-    if (this.props.guestSessionId) {
-      this.filmapiService
-      .getRatedFilm(this.props.guestSessionId)
-      .then((body) => {
-        console.log(body)
-      })
-    }
-  }
+  // filmRated() {
+  //   if (this.props.guestSessionId) {
+  //     this.filmapiService
+  //     .getRatedFilm(this.props.guestSessionId)
+  //     .then((body) => {
+  //       console.log(body)
+  //     })
+  //   }
+  // }
+  
     render() {
       const {val, rated, onLabelChange, guestSessionId} = this.props
       if(!rated) {
@@ -32,6 +34,12 @@ export default class ContentFilm extends Component {
             />
           </div>
         )
-      } 
+      } else {
+        return (
+          <div>
+            <Rate />
+          </div>
+        )
+      }
     }
   }

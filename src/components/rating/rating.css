@@ -1,4 +1,7 @@
 .rate {
   display: flex;
   scale: 80%;
+  position: absolute;
+  bottom: 15px;
+  left: 180px;
 }

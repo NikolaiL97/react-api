@@ -23,7 +23,6 @@ export default class App extends Component {
       this.setState({
         searchFilm: e.target.value,
       });
-     console.log('APP ' + this.state.searchFilm)
     }
   };
 
