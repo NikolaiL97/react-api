@@ -1,6 +1,7 @@
 import './film-list.css';
 import { Spin } from 'antd';
 import React, { Component } from 'react';
+
 import Film from '../film/film';
 import FilmapiService from '../services/film-api-service';
 import Pag from '../pagination/pagination';
@@ -9,148 +10,80 @@ import ErrorIndicator from '../error-indicator/error-indicator';
 export default class FilmList extends Component {
   filmapiService = new FilmapiService();
 
-  state = {
-    filmsId: [],
-    filmName: [],
-    page: 1,
-    totalPages: null,
-    loading: true,
-    error: false,
-    genreFilms:null,
-  }
-
-  componentDidMount(){
-    this.getGenreFilm();
-    this.updateFilmList();
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    if((prevProps.val !== this.props.val)){
-      this.setState({
-        filmsId: [],
-        filmName: [],
-        loading: true,
-        page:1
-      });
-      this.updateFilmList()
-    }
-    if(prevState.page !== this.state.page) {
-      this.setState({
-        filmsId: [],
-        filmName: [],
-        loading: true
-      })
-      this.updateFilmList()
-    }
-  }
-
-  onError = (err) => {
-    this.setState({
-      error: true,
-      loading: false
-    })
-  }
-
-  updateFilmList() {
-    const { val } = this.props
-    const {page} = this.state
-    this.filmapiService
-    .getResours(val, page)
-    .then((body) => {
-      if(body.results.length == 0) {
-        this.setState({
-          loading: false
-        })
-      }
-      this.setState({
-        totalPages: body.total_pages,
-      })
-      body.results.forEach(el => {
-        const stateFilmsId = this.state.filmsId
-        const filmName = this.state.filmName
-        stateFilmsId.push(el.id)
-        filmName.push(el.title)
-        this.setState({
-          filmsId: stateFilmsId,
-          filmName: filmName,
-          loading: false
-        })
-      })
-    })
-    .catch(this.onError)
-
-  }
-
-  getGenreFilm() {
-    this.filmapiService.getGenre()
-    .then((body) => {
-      this.setState({
-        genreFilms: body.genres
-      })
-    })
-  }
-
-  changePagination= (current) => {
-    this.setState({
-      page: current
-    })
-    console.log(current)
-  }
-
-
+  // eslint-disable-next-line consistent-return
   render() {
-    const filmsId = this.state.filmsId
-    const filmName = this.state.filmName
-    const { val, guestSessionId } = this.props
-    const loading = this.state.loading
-    const totalPages = this.state.totalPages
-    const error = this.state.error
-    const page = this.state.page
-    const genreFilms = this.state.genreFilms
-    
+    const {
+      filmsId,
+      filmName,
+      loading,
+      totalPages,
+      error,
+      page,
+      genreFilms,
+      nameFilm,
+      relisesDate,
+      description,
+      image,
+      idGenre,
+      voteAverage,
+      changePagination,
+      val,
+    } = this.props;
 
-    if(error) {
-      return (
-        <ErrorIndicator />
-      )
+    if (error) {
+      return <ErrorIndicator />;
     }
 
-    if(val && (filmName.length == 0) && !loading) {
-      return (
-        <p>Фильм не найден</p>
-      )
+    if (val && filmName.length === 0 && !loading) {
+      return <p className="noSearch">Фильм не найден</p>;
     }
+
     if (val === null) {
-      return
+      // eslint-disable-next-line consistent-return
+      return;
     }
 
-    if(loading) {
-      return (
-        <Spin className='spin' />
-      )
-    } else if (filmName){
+    if (loading) {
+      return <Spin className="spin" />;
+    }
+    if (filmName) {
       const elem = filmsId.map((el, idx) => {
-        const id = el
-        const vals = filmName[idx]
+        const vals = filmName[idx];
+        const namesFilm = nameFilm[idx];
+        const reliseDate = relisesDate[idx];
+        const descriptions = description[idx];
+        const images = image[idx];
+        const idGenres = idGenre[idx];
+        const id = idx;
+        const voteAverages = voteAverage[idx];
         return (
-          <div className='film' key={id}>
-            <Film 
-            id={id}
-            val = {vals}
-            page = {page}
-            filmsId = {filmsId}
-            genreFilms = {genreFilms} />
+          <div className="film" key={el + id}>
+            <Film
+              id={el}
+              val={vals}
+              page={page}
+              filmsId={filmsId}
+              genreFilms={genreFilms}
+              nameFilm={namesFilm}
+              relisesDate={reliseDate}
+              description={descriptions}
+              image={images}
+              idGenre={idGenres}
+              loading={loading}
+              voteAverage={voteAverages}
+            />
           </div>
-        ) 
-      })
+        );
+      });
 
       return (
         <div className="film-list-wrapper">
           {elem}
-          <Pag 
-          totalPages={totalPages}
-          changePagination={this.changePagination}
-          page={page}/>
+          <Pag
+            totalPages={totalPages}
+            changePagination={changePagination}
+            page={page}
+          />
         </div>
       );
     }

@@ -1,26 +1,27 @@
-import React, { Component} from 'react';
-import './progress.css'
+import React, { Component } from 'react';
+import './progress.css';
 
 export default class Progres extends Component {
   render() {
-    let {rate} = this.props
-    let progress = 'progress '
-    if(!rate) {
-      rate = 0;
+    let { voteAverage } = this.props;
+    let progress = 'progress ';
+    if (!voteAverage) {
+      voteAverage = 0;
     }
+    voteAverage = voteAverage.toFixed(1);
 
-    if(rate >= 3 && rate < 5) {
-      progress += 'free-five'
-    } else if (rate >= 5 && rate < 7) {
-      progress += 'five-seven'
-    } else if (rate >= 7) {
-      progress += 'seven'
+    if (voteAverage >= 3 && voteAverage < 5) {
+      progress += 'free-five';
+    } else if (voteAverage >= 5 && voteAverage < 7) {
+      progress += 'five-seven';
+    } else if (voteAverage >= 7) {
+      progress += 'seven';
     }
 
     return (
       <div className={progress}>
-        <p className='count-progress'>{rate}</p>
+        <p className="count-progress">{voteAverage}</p>
       </div>
-    )
+    );
   }
-};
+}
