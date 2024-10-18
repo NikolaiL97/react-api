@@ -57,7 +57,7 @@ export default class Film extends Component {
     });
   };
 
-  updateFilm = (e = null) => {
+  updateFilm(e) {
     const {
       id,
       nameFilm,
@@ -67,6 +67,7 @@ export default class Film extends Component {
       idGenre,
       loading,
       voteAverage,
+      // rateStore,
     } = this.props;
     this.setState({
       film: {
@@ -81,25 +82,25 @@ export default class Film extends Component {
       },
       loading,
     });
-  };
+  }
 
   changeRate = (e) => {
     this.updateFilm(e);
     const inform = this.state.film;
     const data = JSON.stringify(inform);
-    localStorage.setItem(this.state.film.id, data);
+    setTimeout(() => localStorage.setItem(this.state.film.id, data), 1000);
   };
 
   render() {
+    const { rated } = this.props;
     const { film, loading, error } = this.state;
-    const { changeRate } = this;
-    const hasData = !(loading || error);
+    const hasData = !((loading || error) && !rated);
     const errorMessage = error ? <ErrorIndicator /> : null;
-    const spin = loading ? <Spin /> : null;
-    const content = hasData ? (
-      <FilmView film={film} changeRate={changeRate} />
-    ) : null;
-
+    const spin = loading && !rated ? <Spin /> : null;
+    const content =
+      hasData || rated ? (
+        <FilmView film={film} changeRate={this.changeRate} />
+      ) : null;
     if (!film) {
       return <Spin />;
     }

@@ -28,6 +28,9 @@ export default class FilmList extends Component {
       voteAverage,
       changePagination,
       val,
+      rated,
+      changeRate,
+      changeR,
     } = this.props;
 
     if (error) {
@@ -38,15 +41,15 @@ export default class FilmList extends Component {
       return <p className="noSearch">Фильм не найден</p>;
     }
 
-    if (val === null) {
+    if ((val === null || !val) && !rated) {
       // eslint-disable-next-line consistent-return
       return;
     }
 
-    if (loading) {
+    if (loading && !rated) {
       return <Spin className="spin" />;
     }
-    if (filmName) {
+    if (filmName || rated) {
       const elem = filmsId.map((el, idx) => {
         const vals = filmName[idx];
         const namesFilm = nameFilm[idx];
@@ -59,10 +62,11 @@ export default class FilmList extends Component {
         return (
           <div className="film" key={el + id}>
             <Film
+              rated={rated}
               id={el}
               val={vals}
               page={page}
-              filmsId={filmsId}
+              filmsId={el}
               genreFilms={genreFilms}
               nameFilm={namesFilm}
               relisesDate={reliseDate}
@@ -71,21 +75,26 @@ export default class FilmList extends Component {
               idGenre={idGenres}
               loading={loading}
               voteAverage={voteAverages}
+              changeRate={changeRate}
+              changeR={changeR}
             />
           </div>
         );
       });
 
-      return (
-        <div className="film-list-wrapper">
-          {elem}
-          <Pag
-            totalPages={totalPages}
-            changePagination={changePagination}
-            page={page}
-          />
-        </div>
-      );
+      if (!rated) {
+        return (
+          <div className="film-list-wrapper">
+            {elem}
+            <Pag
+              totalPages={totalPages}
+              changePagination={changePagination}
+              page={page}
+            />
+          </div>
+        );
+      }
+      return <div className="film-list-wrapper">{elem}</div>;
     }
   }
 }

@@ -19,6 +19,17 @@ export default class ContentFilm extends Component {
       idGenre: [],
       voteAverage: [],
     },
+    filmStor: {
+      nameFilmStor: [],
+      relisesDataStor: [],
+      descriptionStor: [],
+      idStor: [],
+      idGenreStor: [],
+      imageStor: [],
+      rateStor: [],
+      voteAverageStor: [],
+    },
+    changeR: false,
     page: 1,
     filmsId: [],
     filmName: [],
@@ -27,6 +38,12 @@ export default class ContentFilm extends Component {
     error: false,
     loading: true,
   };
+
+  componentDidMount() {
+    if (localStorage.length > 0) {
+      this.keyStorage();
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.val !== this.props.val) {
@@ -67,6 +84,9 @@ export default class ContentFilm extends Component {
         loading: true,
       });
       this.updateContent();
+    }
+    if (prevProps.rated !== this.props.rated) {
+      this.keyStorage();
     }
   }
 
@@ -152,10 +172,64 @@ export default class ContentFilm extends Component {
     });
   };
 
+  keyStorage() {
+    const { length } = localStorage;
+    const arrKey = [];
+    const arrValue = [];
+    for (let i = 0; i < length; i++) {
+      arrKey.push(localStorage.key(i));
+    }
+    if (arrKey.length > 0) {
+      arrKey.forEach((item) => {
+        let val = localStorage.getItem(item);
+        val = JSON.parse(val);
+        arrValue.push(val);
+      });
+      const arrNameFilm = [];
+      const arrRelisesData = [];
+      const arrDescription = [];
+      const arrId = [];
+      const arrIdGenre = [];
+      const arrImage = [];
+      const arrRate = [];
+      const arrVoteAverage = [];
+
+      arrValue.forEach((item) => {
+        arrNameFilm.push(item.nameFilm);
+        const defaultDate = new Date(item.relisesDate);
+        if (!item.relisesDate) {
+          arrRelisesData.push(format('Нет даты'));
+        } else {
+          arrRelisesData.push(format(defaultDate, 'MMMM dd, yyyy'));
+        }
+
+        arrDescription.push(item.description);
+        arrId.push(item.id);
+        arrIdGenre.push(item.idGenre);
+        arrImage.push(item.image);
+        arrRate.push(item.rate);
+        arrVoteAverage.push(item.voteAverage);
+      });
+      this.setState({
+        filmStor: {
+          nameFilmStor: arrNameFilm,
+          relisesDataStor: arrRelisesData,
+          descriptionStor: arrDescription,
+          idStor: arrId,
+          idGenreStor: arrIdGenre,
+          imageStor: arrImage,
+          rateStor: arrRate,
+          voteAverageStor: arrVoteAverage,
+        },
+      });
+    }
+  }
+
   render() {
-    const { val, onLabelChange } = this.props;
+    const { val, onLabelChange, rated } = this.props;
     const {
       film,
+      filmStor,
       filmsId,
       filmName,
       totalPages,
@@ -163,6 +237,7 @@ export default class ContentFilm extends Component {
       loading,
       page,
       error,
+      changeR,
     } = this.state;
     const {
       nameFilm,
@@ -173,26 +248,63 @@ export default class ContentFilm extends Component {
       idGenre,
       voteAverage,
     } = film;
+    const {
+      nameFilmStor,
+      relisesDataStor,
+      descriptionStor,
+      idStor,
+      idGenreStor,
+      imageStor,
+      voteAverageStor,
+    } = filmStor;
+    if (!rated) {
+      return (
+        <div className="content-film">
+          <SearchFilm onLabelChange={onLabelChange} />
+          <FilmList
+            val={val}
+            filmsId={filmsId}
+            filmName={filmName}
+            totalPages={totalPages}
+            genreFilms={genreFilms}
+            loading={loading}
+            nameFilm={nameFilm}
+            relisesDate={relisesDate}
+            description={description}
+            image={image}
+            id={id}
+            idGenre={idGenre}
+            voteAverage={voteAverage}
+            page={page}
+            changePagination={this.changePagination}
+            error={error}
+            changeRate={this.changeRate}
+            changeR={changeR}
+          />
+        </div>
+      );
+    }
     return (
       <div className="content-film">
-        <SearchFilm onLabelChange={onLabelChange} />
         <FilmList
+          rated={rated}
           val={val}
-          filmsId={filmsId}
-          filmName={filmName}
+          filmsId={idStor}
+          filmName={nameFilmStor}
           totalPages={totalPages}
           genreFilms={genreFilms}
           loading={loading}
-          nameFilm={nameFilm}
-          relisesDate={relisesDate}
-          description={description}
-          image={image}
-          id={id}
-          idGenre={idGenre}
-          voteAverage={voteAverage}
+          nameFilm={nameFilmStor}
+          relisesDate={relisesDataStor}
+          description={descriptionStor}
+          image={imageStor}
+          id={idStor}
+          idGenre={idGenreStor}
+          voteAverage={voteAverageStor}
           page={page}
           changePagination={this.changePagination}
           error={error}
+          changeR={changeR}
         />
       </div>
     );

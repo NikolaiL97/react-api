@@ -15,3 +15,7 @@
 .noSearch {
   margin-left: 45%;
 }
+
+.noDisplay {
+  display: none;
+}

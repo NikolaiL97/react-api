@@ -12,7 +12,6 @@ export default class App extends Component {
 
   state = {
     searchFilm: null,
-    guestSessionId: null,
     rated: false,
     search: true,
     genreFilms: null,
@@ -60,7 +59,7 @@ export default class App extends Component {
 
   render() {
     const val = this.state.searchFilm;
-    const { rated, guestSessionId, genreFilms } = this.state;
+    const { rated, genreFilms } = this.state;
 
     return (
       <>
@@ -78,7 +77,6 @@ export default class App extends Component {
                   onLabelChange={this.onLabelChanges}
                   rated={rated}
                   val={val}
-                  guestSessionId={guestSessionId}
                 />
               </section>
             </section>
