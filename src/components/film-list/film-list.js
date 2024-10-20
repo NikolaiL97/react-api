@@ -31,6 +31,7 @@ export default class FilmList extends Component {
       rated,
       changeRate,
       changeR,
+      rate,
     } = this.props;
 
     if (error) {
@@ -57,6 +58,7 @@ export default class FilmList extends Component {
         const descriptions = description[idx];
         const images = image[idx];
         const idGenres = idGenre[idx];
+        const rates = rate[idx];
         const id = idx;
         const voteAverages = voteAverage[idx];
         return (
@@ -74,6 +76,7 @@ export default class FilmList extends Component {
               image={images}
               idGenre={idGenres}
               loading={loading}
+              rate={rates}
               voteAverage={voteAverages}
               changeRate={changeRate}
               changeR={changeR}

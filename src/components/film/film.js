@@ -24,7 +24,7 @@ export default class Film extends Component {
       relisesDate: null,
       description: null,
       image: null,
-      rate: null,
+      rate: 0,
       id: null,
       idGenre: [1],
       voteAverage: null,
@@ -57,7 +57,7 @@ export default class Film extends Component {
     });
   };
 
-  updateFilm(e) {
+  updateFilm(e = 0) {
     const {
       id,
       nameFilm,
@@ -67,28 +67,48 @@ export default class Film extends Component {
       idGenre,
       loading,
       voteAverage,
-      // rateStore,
+      rate,
     } = this.props;
-    this.setState({
-      film: {
-        nameFilm,
-        relisesDate,
-        description,
-        image,
-        rate: e,
-        id,
-        idGenre,
-        voteAverage,
-      },
-      loading,
-    });
+    if (e !== 0) {
+      this.setState({
+        film: {
+          nameFilm,
+          relisesDate,
+          description,
+          image,
+          rate: e,
+          id,
+          idGenre,
+          voteAverage,
+        },
+        loading,
+      });
+    } else {
+      this.setState({
+        film: {
+          nameFilm,
+          relisesDate,
+          description,
+          image,
+          rate,
+          id,
+          idGenre,
+          voteAverage,
+        },
+        loading,
+      });
+    }
+  }
+
+  valueStorage() {
+    const inform = this.state.film;
+    const data = JSON.stringify(inform);
+    localStorage.setItem(this.state.film.id, data);
   }
 
   changeRate = (e) => {
     this.updateFilm(e);
-    const inform = this.state.film;
-    const data = JSON.stringify(inform);
-    setTimeout(() => localStorage.setItem(this.state.film.id, data), 1000);
+    setTimeout(() => this.valueStorage(), 0);
   };
 
   render() {
@@ -116,8 +136,15 @@ export default class Film extends Component {
 }
 
 function FilmView({ film, changeRate, genre }) {
-  const { nameFilm, relisesDate, description, image, voteAverage, idGenre } =
-    film;
+  const {
+    nameFilm,
+    relisesDate,
+    description,
+    image,
+    voteAverage,
+    idGenre,
+    rate,
+  } = film;
   const imageFilm = `https://image.tmdb.org/t/p/w500${image}`;
   if (!genre) {
     return (
@@ -139,7 +166,7 @@ function FilmView({ film, changeRate, genre }) {
           <div className="description">
             <p>{description}</p>
           </div>
-          <Rating onChangeRate={changeRate} className="rating" />
+          <Rating onChangeRate={changeRate} className="rating" rate={rate} />
         </div>
       </>
     );

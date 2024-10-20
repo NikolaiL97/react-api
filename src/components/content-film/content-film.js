@@ -254,6 +254,7 @@ export default class ContentFilm extends Component {
       descriptionStor,
       idStor,
       idGenreStor,
+      rateStor,
       imageStor,
       voteAverageStor,
     } = filmStor;
@@ -280,6 +281,7 @@ export default class ContentFilm extends Component {
             error={error}
             changeRate={this.changeRate}
             changeR={changeR}
+            rate={rateStor}
           />
         </div>
       );
@@ -304,6 +306,7 @@ export default class ContentFilm extends Component {
           page={page}
           changePagination={this.changePagination}
           error={error}
+          rate={rateStor}
           changeR={changeR}
         />
       </div>
