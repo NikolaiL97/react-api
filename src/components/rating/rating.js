@@ -5,10 +5,7 @@ import './rating.css';
 export default class Rating extends Component {
   render() {
     const { onChangeRate, rate } = this.props;
-    // let { rate } = this.props;
-    // if (rate === null) {
-    //   rate = 0;
-    // }
+
     return (
       <Flex gap="middle" vertical>
         <Flex gap="middle">

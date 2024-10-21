@@ -25,27 +25,29 @@
 }
 
 .nameFilm {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 28px;
   font-weight: 400;
   font-size: 20px;
   color: #000000;
   margin: 0;
-  position: absolute;
-  top: 20px;
-  left: 200px;
-  max-width: 60%;
+  position: relative;
+  top: -30px;
+  max-width: 40%;
 }
 
 .relisesDate,
 .description {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 22px;
   font-weight: 400;
   font-size: 12px;
   color: #827e7e;
   max-width: 240px;
   margin-top: 10px;
+}
+.relisesDate {
+  margin-top: -30px;
 }
 
 .description {

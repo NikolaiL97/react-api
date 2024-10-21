@@ -16,6 +16,7 @@ export default class ContentFilm extends Component {
       description: [],
       image: [],
       id: [],
+      rate: [],
       idGenre: [],
       voteAverage: [],
     },
@@ -37,6 +38,7 @@ export default class ContentFilm extends Component {
     genreFilms: null,
     error: false,
     loading: true,
+    keyStore: [],
   };
 
   componentDidMount() {
@@ -54,6 +56,7 @@ export default class ContentFilm extends Component {
           description: [],
           image: [],
           id: [],
+          rate: [],
           idGenre: [],
           voteAverage: [],
         },
@@ -74,6 +77,7 @@ export default class ContentFilm extends Component {
           description: [],
           image: [],
           id: [],
+          rate: [],
           idGenre: [],
           voteAverage: [],
         },
@@ -104,13 +108,14 @@ export default class ContentFilm extends Component {
         this.setState({
           totalPages: body.total_pages,
         });
-        const { filmName, filmsId, film } = this.state;
+        const { filmName, filmsId, film, keyStore } = this.state;
         const {
           nameFilm,
           relisesDate,
           description,
           image,
           id,
+          rate,
           idGenre,
           voteAverage,
         } = film;
@@ -124,9 +129,27 @@ export default class ContentFilm extends Component {
           } else {
             relisesDate.push(format(defaultDate, 'MMMM dd, yyyy'));
           }
+          console.log(filmsId);
+          let a = 0;
+          keyStore.forEach((item) => {
+            console.log(item);
+            item = Number(item);
+            if (item === el.id) {
+              a = 1;
+              console.log(localStorage.getItem(item));
+              rate.push(JSON.parse(localStorage.getItem(item)).rate);
+            } else if (item !== el.id && a !== 0) {
+              a = 2;
+            }
+          });
+          if (a === 0) {
+            rate.push(0);
+          }
+          console.log(rate);
           description.push(this.sokr(el.overview));
           image.push(el.poster_path);
           id.push(el.id);
+
           idGenre.push(el.genre_ids);
           voteAverage.push(el.vote_average);
         });
@@ -137,6 +160,7 @@ export default class ContentFilm extends Component {
             description,
             image,
             id,
+            rate,
             idGenre,
             voteAverage,
           },
@@ -179,6 +203,9 @@ export default class ContentFilm extends Component {
     for (let i = 0; i < length; i++) {
       arrKey.push(localStorage.key(i));
     }
+    this.setState({
+      keyStore: arrKey,
+    });
     if (arrKey.length > 0) {
       arrKey.forEach((item) => {
         let val = localStorage.getItem(item);
@@ -245,6 +272,7 @@ export default class ContentFilm extends Component {
       description,
       image,
       id,
+      rate,
       idGenre,
       voteAverage,
     } = film;
@@ -281,7 +309,7 @@ export default class ContentFilm extends Component {
             error={error}
             changeRate={this.changeRate}
             changeR={changeR}
-            rate={rateStor}
+            rate={rate}
           />
         </div>
       );
