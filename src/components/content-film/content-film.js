@@ -129,14 +129,11 @@ export default class ContentFilm extends Component {
           } else {
             relisesDate.push(format(defaultDate, 'MMMM dd, yyyy'));
           }
-          console.log(filmsId);
           let a = 0;
           keyStore.forEach((item) => {
-            console.log(item);
             item = Number(item);
             if (item === el.id) {
               a = 1;
-              console.log(localStorage.getItem(item));
               rate.push(JSON.parse(localStorage.getItem(item)).rate);
             } else if (item !== el.id && a !== 0) {
               a = 2;
@@ -145,7 +142,6 @@ export default class ContentFilm extends Component {
           if (a === 0) {
             rate.push(0);
           }
-          console.log(rate);
           description.push(this.sokr(el.overview));
           image.push(el.poster_path);
           id.push(el.id);
