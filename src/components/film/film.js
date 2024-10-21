@@ -8,15 +8,12 @@ import { Spin } from 'antd';
 import FilmapiService from '../services/film-api-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import Rating from '../rating/rating';
-import GuestApiSession from '../services/guest-api-session';
 import Progres from '../progress/progress';
 import Genre from '../genre/genre';
 import { GenreConsumer } from '../genre-service-context/genre-service-context';
 
 export default class Film extends Component {
   filmapiService = new FilmapiService();
-
-  guestApiSession = new GuestApiSession();
 
   state = {
     film: {

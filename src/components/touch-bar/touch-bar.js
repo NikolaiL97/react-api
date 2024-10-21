@@ -14,12 +14,12 @@ export default class TouchBar extends Component {
     }
     return (
       <div className="touchBar">
-        <div className={searchClass} onClick={onChangeSearch}>
+        <button type="button" className={searchClass} onClick={onChangeSearch}>
           Search
-        </div>
-        <div className={ratedClass} onClick={onChangeRated}>
+        </button>
+        <button type="button" className={ratedClass} onClick={onChangeRated}>
           Rated
-        </div>
+        </button>
       </div>
     );
   }

@@ -3,9 +3,12 @@
   justify-content: center;
   min-height: 53.7px;
   margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .search {
+  background-color: #ffffff;
+  border: none;
   display: flex;
   justify-content: center;
   width: 73px;
@@ -13,7 +16,7 @@
   border-bottom: 1px solid #d9d9d9;
   align-items: center;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 22px;
   font-weight: 400;
   font-size: 14px;
@@ -21,13 +24,15 @@
 }
 
 .rated {
+  background-color: #ffffff;
+  border: none;
   display: flex;
   justify-content: center;
   width: 73px;
   max-height: 53.7px;
   border-bottom: 1px solid #d9d9d9;
   align-items: center;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 22px;
   font-weight: 400;
   font-size: 14px;
