@@ -125,7 +125,7 @@ export default class ContentFilm extends Component {
           filmName.push(el.title);
           nameFilm.push(el.title);
           if (!el.release_date) {
-            relisesDate.push('нет даты');
+            relisesDate.push('Нет даты');
           } else {
             relisesDate.push(format(defaultDate, 'MMMM dd, yyyy'));
           }
@@ -220,8 +220,8 @@ export default class ContentFilm extends Component {
       arrValue.forEach((item) => {
         arrNameFilm.push(item.nameFilm);
         const defaultDate = new Date(item.relisesDate);
-        if (!item.relisesDate) {
-          arrRelisesData.push(format('Нет даты'));
+        if (!item.relisesDate || item.relisesDate === 'Нет даты') {
+          arrRelisesData.push('Нет даты');
         } else {
           arrRelisesData.push(format(defaultDate, 'MMMM dd, yyyy'));
         }
